@@ -11,4 +11,7 @@ class Insert(models.Model):
     def __str__(self):
         return "Ime: "+self.name + " Telefonski broj: "+self.phone+ "\nDefekt: "+self.description + "\nDatum: \n"
 
+    def isDone(self):
+        return self.done
+
 

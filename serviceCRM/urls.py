@@ -16,10 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from serviceCRM.views import ReportById,index,InsertNew,done
 
-from . import views
 urlpatterns = [
-    path("", views.index, name="index"),
+    path("", index, name="index"),
     path('admin/', admin.site.urls),
-    path("<int:question_id>/", views.detail, name="detail"),
+    path("<int:question_id>/", ReportById.ReportById, name="detail"),
+    path("insert/",InsertNew.insert, name="insert"),
+    path("done/<int:question_id>",done,name="done")
 ]
