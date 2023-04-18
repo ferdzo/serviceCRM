@@ -11,8 +11,10 @@ class InputForm(forms.ModelForm):
         fields = {"name", "phone", "description", "date","done"}
         labels = {'name': "Name", 'phone':  "Phone", 'date': "Date", 'description': "Description",'done':"Done"}
         widgets = {
+            'name': forms.TextInput(attrs={'class':'form-control'}),
+            'phone': forms.TextInput(attrs={'class': 'form-control'}),
             'date': DateInput(),
-            'description':forms.Textarea
+            'description':forms.Textarea(attrs={'class': 'form-control'})
         }
     field_order =["name", "phone", "date","description","done"]
 
