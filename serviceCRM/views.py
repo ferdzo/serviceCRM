@@ -4,11 +4,11 @@ from .models import Insert
 from django.views import generic
 from .forms import InputForm
 
-from django.template import loader
 
+# from django.template import loader
 
 def index(request):
-    proba = Insert.objects.order_by("name")
+    proba = Insert.objects.order_by("date")
     return HttpResponse(proba)
 
 
@@ -17,13 +17,6 @@ def index(request):
 #     context = {"name":req.name, "phone":req.phone,"desc":req.description,"date":req.date}
 #     return HttpResponse(render(request,"serviceCRM/id.html", context))
 #
-
-def inputform(request):
-    if request.method == 'POST':
-        if request.POST.get():
-            return
-
-
 class ReportById(generic.DetailView):
     model = Insert
     template_name = "serviceCRM/id.html"
@@ -37,9 +30,10 @@ class ReportById(generic.DetailView):
 class InsertNew(generic.View):
     model = Insert
     template_name = "serviceCRM/form.html"
+
     def insert(request):
         if request.method == 'POST':
-            form=InputForm(request.POST)
+            form = InputForm(request.POST)
             if form.is_valid():
                 form.save()
                 print("Raboti")
@@ -47,11 +41,17 @@ class InsertNew(generic.View):
         else:
             form = InputForm()
 
-        return render(request,InsertNew.template_name,{'form':form})
+        return render(request, InsertNew.template_name, {'form': form})
 
-def done(request,question_id):
+class List(generic.ListView):
+    model = Insert
+    template_name = "serviceCRM/list.html"
+
+
+def done(request, question_id):
     req = get_object_or_404(Insert, id=question_id)
     if req.isDone():
         return HttpResponse("Done")
     return HttpResponse("Not Done")
+
 
