@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.shortcuts import get_object_or_404,render
 from .models import Insert
 from django.template import loader
 
@@ -7,8 +8,7 @@ def index(request):
     return HttpResponse(proba)
 
 def detail(request,question_id):
-    proba = Insert.objects.get(id=question_id)
-    template = loader.get_template("serviceCRM/id.html")
-    context = {"name":proba.name, "phone":proba.phone,"desc":proba.description,"date":proba.date}
-    return HttpResponse(template.render(context, request))
+    req = get_object_or_404(Insert,id=question_id)
+    context = {"name":req.name, "phone":req.phone,"desc":req.description,"date":req.date}
+    return HttpResponse(render(request,"serviceCRM/id.html", context))
 
