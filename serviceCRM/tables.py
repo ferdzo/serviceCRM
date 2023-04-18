@@ -4,4 +4,4 @@ from .models import Insert
 class InsertTable(tables.Table):
     class Meta:
         model = Insert
-        template_name="base.html"
+        template_name="serviceCRM/list.html"
