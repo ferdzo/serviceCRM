@@ -1,13 +1,17 @@
 from django import forms
 from .models import Insert
 
+class DateInput(forms.DateInput):
+    input_type = 'date'
 
 class InputForm(forms.ModelForm):
     class Meta:
         model = Insert
         fields = {"name", "phone", "description", "date","done"}
-        labels = {'name': "Name", 'phone': "Phone", 'date': "Date", 'description': "Description",'done':"Done"}
-
+        labels = {'name': "Name", 'phone':  "Phone", 'date': "Date", 'description': "Description",'done':"Done"}
+        widgets = {
+            'date': DateInput(),
+        }
     field_order =["name", "phone", "description", "date","done"]
 
         # name = forms.CharField(label="Name", max_length=30)
