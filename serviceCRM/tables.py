@@ -8,6 +8,5 @@ class InsertTable(tables.Table):
         template_name = "serviceCRM/list.html"
         attrs = {'class':'table table-sm'}
         fields = ['id', 'name', 'phone', 'description', 'date', 'done', 'edit']
-        edit = tables.TemplateColumn(template_name='serviceCRM/edit.html')
 
-
+    edit = tables.TemplateColumn(template_name="serviceCRM/edit.html", verbose_name=("edit"), orderable=False)
