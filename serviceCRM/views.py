@@ -1,9 +1,10 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
-from .models import Insert
 from django.views import generic
 from .forms import InputForm
-
+from .tables import InsertTable
+from .models import Insert
+from django_tables2 import SingleTableView
 
 # from django.template import loader
 
@@ -30,7 +31,6 @@ class ReportById(generic.DetailView):
 class InsertNew(generic.View):
     model = Insert
     template_name = "serviceCRM/form.html"
-
     def insert(request):
         if request.method == 'POST':
             form = InputForm(request.POST)
@@ -44,9 +44,10 @@ class InsertNew(generic.View):
         return render(request, InsertNew.template_name, {'form': form})
 
 
-class List(generic.ListView):
+class List(SingleTableView):
     model = Insert
-    template_name = "serviceCRM/list.html"
+    table_class = InsertTable
+    template_name = 'serviceCRM/list.html'
 
 
 def done(request, question_id):
