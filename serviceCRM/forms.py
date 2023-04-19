@@ -1,6 +1,7 @@
 from django import forms
 from .models import Insert
 
+
 class DateInput(forms.DateInput):
     input_type = 'date'
 
@@ -8,17 +9,18 @@ class DateInput(forms.DateInput):
 class InputForm(forms.ModelForm):
     class Meta:
         model = Insert
-        fields = {"name", "phone", "description", "date","done"}
-        labels = {'name': "Name", 'phone':  "Phone", 'date': "Date", 'description': "Description",'done':"Done"}
+        fields = {"name", "phone", "description", "date", "done"}
+        labels = {'name': "Name", 'phone': "Phone", 'date': "Date", 'description': "Description", 'done': "Done"}
         widgets = {
-            'name': forms.TextInput(attrs={'class':'form-control'}),
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
             'phone': forms.TextInput(attrs={'class': 'form-control'}),
             'date': DateInput(),
-            'description':forms.Textarea(attrs={'class': 'form-control'})
+            'description': forms.Textarea(attrs={'class': 'form-control'})
         }
-    field_order =["name", "phone", "date","description","done"]
 
-        # name = forms.CharField(label="Name", max_length=30)
-        # phone = forms.CharField(label="Phone", max_length=30)
-        # date = forms.DateField()
-        # description = forms.CharField(label="Write description of the problem...", max_length=300)
+    field_order = ["name", "phone", "date", "description", "done"]
+
+    # name = forms.CharField(label="Name", max_length=30)
+    # phone = forms.CharField(label="Phone", max_length=30)
+    # date = forms.DateField()
+    # description = forms.CharField(label="Write description of the problem...", max_length=300)

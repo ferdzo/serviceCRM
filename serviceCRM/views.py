@@ -43,6 +43,7 @@ class InsertNew(generic.View):
 
         return render(request, InsertNew.template_name, {'form': form})
 
+
 class List(generic.ListView):
     model = Insert
     template_name = "serviceCRM/list.html"
@@ -53,5 +54,3 @@ def done(request, question_id):
     if req.isDone():
         return HttpResponse("Done")
     return HttpResponse("Not Done")
-
-
