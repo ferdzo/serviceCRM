@@ -6,6 +6,7 @@ from .tables import InsertTable
 from .models import Insert
 from django_tables2 import SingleTableView
 
+
 # from django.template import loader
 
 def index(request):
@@ -31,6 +32,7 @@ class ReportById(generic.DetailView):
 class InsertNew(generic.View):
     model = Insert
     template_name = "serviceCRM/form.html"
+
     def insert(request):
         if request.method == 'POST':
             form = InputForm(request.POST)
@@ -44,11 +46,10 @@ class InsertNew(generic.View):
         return render(request, InsertNew.template_name, {'form': form})
 
 
-class List(SingleTableView):
+class TableView(SingleTableView):
     model = Insert
     table_class = InsertTable
-    template_name = 'serviceCRM/list.html'
-
+    template_name = "serviceCRM/list.html"
 
 def done(request, question_id):
     req = get_object_or_404(Insert, id=question_id)

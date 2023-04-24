@@ -19,7 +19,7 @@ from django.urls import path
 import serviceCRM.views as view
 
 urlpatterns = [
-    path("", view.List.as_view(), name="index"),
+    path("", view.TableView.as_view(), name="index"),
     path('admin/', admin.site.urls),
     path("<int:question_id>/", view.ReportById.ReportById, name="detail"),
     path("insert/", view.InsertNew.insert, name="insert"),
