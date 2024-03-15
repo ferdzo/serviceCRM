@@ -10,8 +10,11 @@ from django_tables2 import SingleTableView
 # from django.template import loader
 
 def index(request):
-    proba = Insert.objects.order_by("date")
-    return HttpResponse(proba)
+    if request.user.is_authenticated:
+        proba = Insert.objects.order_by("date")
+        return HttpResponse(proba)
+    else:
+        return HttpResponse("You are not logged in")
 
 
 # def detail(request,question_id):
@@ -21,7 +24,7 @@ def index(request):
 #
 class ReportById(generic.DetailView):
     model = Insert
-    template_name = "serviceCRM/python.exe -m pip install --upgrade pipid.html"
+    template_name = "serviceCRM/id.html"
 
     def ReportById(request, question_id):
         req = get_object_or_404(Insert, id=question_id)
