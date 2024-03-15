@@ -206,4 +206,5 @@ pyvenv.cfg
 pip-selfcheck.json
 .idea
 # End of https://www.toptal.com/developers/gitignore/api/venv,dotenv,intellij,pycharm
-serviceCRM/__pycache__
+__pycache__/
+*.py[cod]

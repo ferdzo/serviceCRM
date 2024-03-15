@@ -23,5 +23,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("<int:question_id>/", view.ReportById.ReportById, name="detail"),
     path("insert/", view.InsertNew.insert, name="insert"),
-    path("done/<int:question_id>", view.done, name="done"),
-]
+    path("done/<int:id>/", view.done, name="done"),]

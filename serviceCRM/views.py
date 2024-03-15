@@ -21,13 +21,12 @@ def index(request):
 #
 class ReportById(generic.DetailView):
     model = Insert
-    template_name = "serviceCRM/id.html"
+    template_name = "serviceCRM/python.exe -m pip install --upgrade pipid.html"
 
     def ReportById(request, question_id):
         req = get_object_or_404(Insert, id=question_id)
         context = {"name": req.name, "phone": req.phone, "desc": req.description, "date": req.date}
-        return HttpResponse(render(request, ReportById.template_name, context))
-
+        return HttpResponse(f"Report ID: {question_id} \nName: {req.name} \nPhone: {req.phone} \nDescription: {req.description} \nDate: {req.date} \nDone: {req.done}")
 
 class InsertNew(generic.View):
     model = Insert
@@ -48,11 +47,11 @@ class InsertNew(generic.View):
 
 class TableView(SingleTableView):
     model = Insert
-    table_class = InsertTable
     template_name = "serviceCRM/list.html"
 
-def done(request, question_id):
-    req = get_object_or_404(Insert, id=question_id)
+
+def done(request, id):
+    req = get_object_or_404(Insert, id=id)
     if req.isDone():
         return HttpResponse("Done")
     return HttpResponse("Not Done")
