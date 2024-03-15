@@ -11,6 +11,7 @@ from django_tables2 import SingleTableView
 
 def index(request):
     if request.user.is_authenticated:
+        return HttpResponse("You are logged in")
         proba = Insert.objects.order_by("date")
         return HttpResponse(proba)
     else:
@@ -49,7 +50,8 @@ class InsertNew(generic.View):
 
 
 class TableView(SingleTableView):
-    model = Insert
+    table_class = Insert
+    queryset = Insert.objects.all()
     template_name = "serviceCRM/list.html"
 
 
