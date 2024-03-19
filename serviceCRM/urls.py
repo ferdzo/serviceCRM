@@ -26,4 +26,5 @@ urlpatterns = [
     path("nalog/<int:id>/", view.Nalog, name="nalog"),
     path("delete/<int:id>/", view.Delete.Delete, name="delete"),
     path("done/", view.Done.as_view(), name="done"),
-    ]
+    path("done/<int:id>/", view.Done.done_by_id, name="done")
+]
