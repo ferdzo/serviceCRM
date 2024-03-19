@@ -20,7 +20,15 @@ class InputForm(forms.ModelForm):
 
     field_order = ["name", "phone", "date", "description", "done"]
 
-    # name = forms.CharField(label="Name", max_length=30)
-    # phone = forms.CharField(label="Phone", max_length=30)
-    # date = forms.DateField()
-    # description = forms.CharField(label="Write description of the problem...", max_length=300)
+# class EditForm(forms.ModelForm):
+#     class Meta:
+#         model = Insert
+#         fields = {"name", "phone", "description", "done"}
+#         labels = {'name': "Name", 'phone': "Phone", 'description': "Description", 'done': "Done"}
+#         widgets = {
+#             'name': forms.TextInput(attrs={'class': 'form-control'}),
+#             'phone': forms.TextInput(attrs={'class': 'form-control'}),
+#             'description': forms.Textarea(attrs={'class': 'form-control'})
+#         }
+
+#     field_order = ["name", "phone", "description", "done"]

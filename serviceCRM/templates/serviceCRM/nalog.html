@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+{% block content %}
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -32,42 +33,51 @@
             border-top: 2px solid #000;
             padding-top: 10px;
         }
+        .center {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 100%;
+            max-height: 100%;
+            margin-bottom: 5    0px;
+          }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <img src="fer-logo.png" style="max-width:65%" alt="Company Logo">
+            <img src="{% static 'fer-logo.png' %}" class="center" alt="Company Logo">
         </div>
         <div class="ticket">
             <div class="ticket-info">
-                <label>Име и презиме:</label> {{ ticket.name }}
+                <label>Име и презиме:</label> {{ name }}
             </div>
             <div class="ticket-info">
-                <label>Телефонски број:</label> {{ticket.phone}}
+                <label>Телефонски број:</label> {{phone}}
             </div>
             <div class="ticket-info">
-                <label>Датум:</label> {{ticket.date}}
+                <label>Датум:</label> {{date}}
             </div>
             <div class="ticket-description">
-                <label><b>Опис на дефект:</b></label>{% if ticket.description %} {{ ticket.description }} {% else %} Нема опис {% endif %}
+                <label><b>Опис на дефект:</b></label> {{ desc }}
             </div>
         </div>
         <div style="height:150px;"></div>
         <div class="ticket">
             <div class="ticket-info">
-                <label>Име и презиме:</label> {{ ticket.name }}
+                <label>Име и презиме:</label> {{ name }}
             </div>
             <div class="ticket-info">
-                <label>Телефонски број:</label> {{ ticket.phone }}
+                <label>Телефонски број:</label> {{ phone }}
             </div>
             <div class="ticket-info">
-                <label>Датум:</label> {{ ticket.date }}
+                <label>Датум:</label> {{ date }}
             </div>
             <div class="ticket-description">
-                <label><b>Опис на дефект:</b></label>{% if ticket.description %} {{ ticket.description }} {% else %} Нема опис {% endif %}
+                <label><b>Опис на дефект:</b></label> {{ desc }}
             </div>
         </div>
     </div>
 </body>
 </html>
+{% endblock %}
