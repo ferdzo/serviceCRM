@@ -6,7 +6,7 @@ from .forms import InputForm
 from .models import Insert
 from .tables import DoneInsertTable, InsertTable
 from django_tables2 import SingleTableView
-
+from datatableview.views import DatatableView
 
 class InsertListView(SingleTableView):
     model = Insert
@@ -21,7 +21,7 @@ class InsertNew(generic.View):
         if request.method == 'POST':
             form = InputForm(request.POST)
             if form.is_valid():
-                ticket=form.save()
+                ticket = form.save()
                 print("Raboti")
                 return HttpResponseRedirect(f"/nalog/{ticket.id}/")
         else:
@@ -62,3 +62,8 @@ class Delete():
         req = get_object_or_404(Insert, id=id)
         req.delete()
         return HttpResponseRedirect("/")
+    
+class DatatableView(DatatableView):
+    model = Insert
+    template_name = 'serviceCRM/Insert_list.html'
+    
