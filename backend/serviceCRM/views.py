@@ -27,7 +27,7 @@ class InsertNew(generic.View):
                 return HttpResponseRedirect(f"/nalog/{ticket.id}/")
         else:
             form = InputForm()
-
+ch
         return render(request, InsertNew.template_name, {'form': form})
 
 class Update(generic.UpdateView):
