@@ -1,10 +1,11 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.views import generic
-from django.views.generic import UpdateView
+
 from .forms import InputForm
 from .models import Insert
 from .tables import DoneInsertTable, InsertTable
+
 from django_tables2 import SingleTableView
 from datatableview.views import DatatableView
 
@@ -29,7 +30,7 @@ class InsertNew(generic.View):
 
         return render(request, InsertNew.template_name, {'form': form})
 
-class Update(UpdateView):
+class Update(generic.UpdateView):
     model = Insert
     template_name = "serviceCRM/edit.html"
     fields = ["name", "phone", "description","note", "done", "repair", "plateno"]
