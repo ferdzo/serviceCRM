@@ -38,7 +38,10 @@ class Update(generic.UpdateView):
 
 
 def Nalog(request, id):
-    data = Insert.objects.get(id=id)
+    try:
+        data = Insert.objects.get(id=id)
+    except:
+        return HttpResponseRedirect("/")
     template = "serviceCRM/nalog.html"
     context = {"name": data.name, "phone": data.phone, "desc": data.description, "date": data.date}
     return render(request, template, context)
@@ -57,9 +60,10 @@ class Done(SingleTableView):
         context = {"name": req.name, "phone": req.phone, "desc": req.description, "date": req.date}
         return HttpResponse(f"Report ID: {id} \nName: {req.name} \nPhone: {req.phone} \nDescription: {req.description} \n Note:{req.note} \nDate: {req.date} \nDone: {req.done} \nRepair: {req.repair} \n Plateno: {req.plateno} \n")
 
-class Delete():
+class Delete(generic.View):
     model = Insert
-    def Delete(request, id):
+
+    def delete(request, id):
         req = get_object_or_404(Insert, id=id)
         req.delete()
         return HttpResponseRedirect("/")
