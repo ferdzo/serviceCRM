@@ -1,13 +1,14 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.views import generic
-
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from .forms import InputForm
 from .models import Insert
 from .tables import DoneInsertTable, InsertTable
 
 from django_tables2 import SingleTableView
-from datatableview.views import DatatableView
+# from datatableview.views import DatatableView
 
 class InsertListView(SingleTableView):
     model = Insert
@@ -27,7 +28,7 @@ class InsertNew(generic.View):
                 return HttpResponseRedirect(f"/nalog/{ticket.id}/")
         else:
             form = InputForm()
-ch
+
         return render(request, InsertNew.template_name, {'form': form})
 
 class Update(generic.UpdateView):
@@ -68,7 +69,11 @@ class Delete(generic.View):
         req.delete()
         return HttpResponseRedirect("/")
     
-class DatatableView(DatatableView):
-    model = Insert
-    template_name = 'serviceCRM/Insert_list.html'
+# class DatatableView(DatatableView):
+#     model = Insert
+#     template_name = 'serviceCRM/Insert_list.html'
     
+@api_view(["GET"])
+def get_all_inserts(request):
+    inserts = Insert.objects.all()
+    return Response({"inserts": list(inserts.values())})

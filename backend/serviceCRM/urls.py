@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 import serviceCRM.views as view
+from rest_framework import routers
+
 
 urlpatterns = [
     path("", view.InsertListView.as_view(), name="index"),
@@ -27,5 +29,6 @@ urlpatterns = [
     path("delete/<int:id>/", view.Delete.delete, name="delete"),
     path("done/", view.Done.as_view(), name="done"),
     path("done/<int:id>/", view.Done.done_by_id, name="done"),
-    path("datatable/", view.DatatableView.as_view(), name="datatable"),
+    path("api/", view.get_all_inserts, name="api"),
+    # path("datatable/", view.DatatableView.as_view(), name="datatable"),
 ]
