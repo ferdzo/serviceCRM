@@ -1,0 +1,184 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+    <meta charset="UTF-8">
+    <title>Потврда #{{ ticket.id }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 0;
+            }
+            html, body {
+                width: 210mm;
+                height: 296mm; /* Slightly less than 297 to prevent overflow */
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+            }
+            .no-print { display: none !important; }
+            
+            .page-container {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .a5-copy {
+                flex: 1;
+                height: 50%;
+                padding: 10mm; /* Reduced padding to fit better */
+                box-sizing: border-box;
+                border-bottom: 1px dashed #999;
+                overflow: hidden;
+                position: relative;
+            }
+            
+            .a5-copy:last-child {
+                border-bottom: none;
+            }
+            
+            .cut-line { display: none; } 
+        }
+        
+        /* Screen preview styles */
+        body { background: #f3f4f6; }
+        .page-container {
+            background: white;
+            width: 210mm;
+            min-height: 297mm;
+            margin: 20px auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .a5-copy {
+            height: 148mm;
+            padding: 15mm;
+            position: relative;
+            background: white;
+            border-bottom: 1px dashed #eee;
+        }
+    </style>
+</head>
+<body onload="window.print()">
+    <div class="page-container">
+        
+        <!-- Copy 1: Customer -->
+        <div class="a5-copy">
+            <!-- Header -->
+            <div class="flex justify-between items-start border-b-2 border-gray-800 pb-2 mb-4">
+                <div>
+                    <img src="{% static 'fer-logo.png' %}" alt="Logo" class="h-10 w-auto mb-1">
+                    <h1 class="text-2xl font-bold text-gray-900">СЕРВИСНА ПОТВРДА</h1>
+                    <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Примерок за Клиент</span>
+                </div>
+                <div class="text-right">
+                    <div class="text-xl font-bold">Налог #{{ ticket.id }}</div>
+                    <div class="text-xs font-mono text-gray-500 mb-1">Реф: {{ ticket.ticket_id }}</div>
+                    <div class="text-gray-600 text-sm">{{ ticket.date }}</div>
+                    <div class="mt-1 inline-block px-2 py-0.5 bg-gray-200 rounded text-xs font-bold">{{ ticket.get_status_display }}</div>
+                </div>
+            </div>
+
+            <!-- Content Grid -->
+            <div class="flex gap-6 mb-4">
+                <div class="w-1/3">
+                    <h3 class="text-gray-500 text-xs uppercase tracking-wide border-b border-gray-200 mb-1">Клиент</h3>
+                    <p class="font-bold text-gray-900">{{ ticket.name }}</p>
+                    <p class="text-sm text-gray-800">{{ ticket.phone }}</p>
+                </div>
+                <div class="w-2/3">
+                    <h3 class="text-gray-500 text-xs uppercase tracking-wide border-b border-gray-200 mb-1">Детали за сервис</h3>
+                    <div class="bg-gray-50 p-2 rounded text-sm">
+                        <p class="font-bold text-xs text-gray-500">Пријавен дефект:</p>
+                        <p class="mb-2">{{ ticket.description }}</p>
+                        {% if ticket.plateno %}
+                        <p class="font-bold text-xs text-gray-500">Проценка/Наплатено:</p>
+                        <p class="font-mono font-bold">{{ ticket.plateno }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Terms (Condensed) -->
+            <div class="text-[10px] leading-tight text-justify text-gray-500 mb-8 border-t border-gray-100 pt-2 absolute bottom-[12mm] left-[10mm] right-[10mm]">
+                <p><strong>УСЛОВИ:</strong> Со потпис потврдувате дека сте согласни со условите. Сервисот не одговара за загуба на податоци. Дијагностика се наплаќа ако поправката е одбиена. Уреди неподигнати 30 дена по известувањето се отстрануваат.</p>
+                
+                <!-- Signatures inline with terms to save space -->
+                <div class="grid grid-cols-2 gap-8 mt-2 pt-2">
+                    <div class="border-t border-gray-400 pt-1">
+                        <p class="text-xs text-gray-600">Потпис на клиент</p>
+                    </div>
+                    <div class="border-t border-gray-400 pt-1 text-right">
+                        <p class="text-xs text-gray-600">Сервисер</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Copy 2: Service -->
+        <div class="a5-copy">
+            <!-- Header -->
+            <div class="flex justify-between items-start border-b-2 border-gray-800 pb-2 mb-4">
+                <div>
+                    <img src="{% static 'fer-logo.png' %}" alt="Logo" class="h-10 w-auto mb-1">
+                    <h1 class="text-2xl font-bold text-gray-900">СЕРВИСНА ПОТВРДА</h1>
+                     <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Примерок за Сервис</span>
+                </div>
+                <div class="text-right">
+                    <div class="text-xl font-bold">Налог #{{ ticket.id }}</div>
+                    <div class="text-xs font-mono text-gray-500 mb-1">Реф: {{ ticket.ticket_id }}</div>
+                    <div class="text-gray-600 text-sm">{{ ticket.date }}</div>
+                    <div class="mt-1 inline-block px-2 py-0.5 bg-gray-200 rounded text-xs font-bold">{{ ticket.get_status_display }}</div>
+                </div>
+            </div>
+
+            <!-- Content Grid -->
+            <div class="flex gap-6 mb-4">
+                <div class="w-1/3">
+                    <h3 class="text-gray-500 text-xs uppercase tracking-wide border-b border-gray-200 mb-1">Клиент</h3>
+                    <p class="font-bold text-gray-900">{{ ticket.name }}</p>
+                    <p class="text-sm text-gray-800">{{ ticket.phone }}</p>
+                </div>
+                <div class="w-2/3">
+                    <h3 class="text-gray-500 text-xs uppercase tracking-wide border-b border-gray-200 mb-1">Детали за сервис</h3>
+                    <div class="bg-gray-50 p-2 rounded text-sm">
+                        <p class="font-bold text-xs text-gray-500">Пријавен дефект:</p>
+                        <p class="mb-2">{{ ticket.description }}</p>
+                        {% if ticket.plateno %}
+                        <p class="font-bold text-xs text-gray-500">Проценка/Наплатено:</p>
+                        <p class="font-mono font-bold">{{ ticket.plateno }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+             <!-- Terms (Condensed) -->
+            <div class="text-[10px] leading-tight text-justify text-gray-500 mb-8 border-t border-gray-100 pt-2 absolute bottom-[12mm] left-[10mm] right-[10mm]">
+                <p><strong>УСЛОВИ:</strong> Со потпис потврдувате дека сте согласни со условите. Сервисот не одговара за загуба на податоци. Дијагностика се наплаќа ако поправката е одбиена. Уреди неподигнати 30 дена по известувањето се отстрануваат.</p>
+                
+                <!-- Signatures -->
+                <div class="grid grid-cols-2 gap-8 mt-2 pt-2">
+                    <div class="border-t border-gray-400 pt-1">
+                        <p class="text-xs text-gray-600">Потпис на клиент</p>
+                    </div>
+                    <div class="border-t border-gray-400 pt-1 text-right">
+                        <p class="text-xs text-gray-600">Сервисер</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Print Control -->
+    <div class="fixed bottom-4 right-4 no-print flex gap-2">
+        <button onclick="window.print()" class="bg-gray-900 text-white px-4 py-2 rounded shadow hover:bg-gray-800">Печати</button>
+        <button onclick="window.close()" class="bg-gray-500 text-white px-4 py-2 rounded shadow hover:bg-gray-600">Затвори</button>
+    </div>
+</body>
+</html>

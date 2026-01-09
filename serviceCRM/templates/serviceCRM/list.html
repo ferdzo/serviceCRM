@@ -1,5 +1,57 @@
 {% extends 'base.html' %}
 {% load render_table from django_tables2 %}
+{% load crispy_forms_tags %}
+
 {% block content %}
-    {% render_table table %}
+    <!-- Dashboard Stats -->
+    <div class="grid grid-cols-1 gap-5 sm:grid-cols-3 mb-6">
+        <div class="bg-white overflow-hidden shadow rounded-lg">
+            <div class="px-4 py-5 sm:p-6">
+                <dt class="text-sm font-medium text-gray-500 truncate">Активни налози</dt>
+                <dd class="mt-1 text-3xl font-semibold text-gray-900">{{ stats_active }}</dd>
+            </div>
+        </div>
+        <div class="bg-white overflow-hidden shadow rounded-lg">
+            <div class="px-4 py-5 sm:p-6">
+                <dt class="text-sm font-medium text-gray-500 truncate">Завршени денес</dt>
+                <dd class="mt-1 text-3xl font-semibold text-gray-900">{{ stats_today_closed }}</dd>
+            </div>
+        </div>
+        <div class="bg-white overflow-hidden shadow rounded-lg">
+            <div class="px-4 py-5 sm:p-6">
+                <dt class="text-sm font-medium text-gray-500 truncate">Спремни за подигање</dt>
+                <dd class="mt-1 text-3xl font-semibold text-yellow-600">{{ stats_ready }}</dd>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white shadow sm:rounded-lg mb-6">
+        <div class="px-4 py-5 sm:p-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Пребарај налози</h3>
+            <form method="get" class="space-y-4 md:space-y-0 md:grid md:grid-cols-12 md:gap-6 items-end">
+                <div class="md:col-span-3">
+                    {{ filter.form.start_date|as_crispy_field }}
+                </div>
+                <div class="md:col-span-3">
+                    {{ filter.form.end_date|as_crispy_field }}
+                </div>
+                <div class="md:col-span-4">
+                    {{ filter.form.search|as_crispy_field }}
+                </div>
+                <!-- Hidden done field if needed, or included in search/other filters -->
+                <div class="md:col-span-2">
+                    <button type="submit" class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gray-900 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                        <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                        </svg>
+                        Пребарај
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+        {% render_table table %}
+    </div>
 {% endblock%}

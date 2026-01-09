@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+    <meta charset="UTF-8">
+    <title>Налепница #{{ ticket.id }}</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 10px;
+            width: 300px; /* Adjust for label printer width (e.g., BROTHER QL) */
+            text-align: center;
+        }
+        .header { font-size: 1.2em; font-weight: bold; margin-bottom: 5px; }
+        .id { font-size: 2em; font-weight: bold; margin: 10px 0; border: 2px solid black; display: inline-block; padding: 5px 20px; }
+        .details { font-size: 0.9em; text-align: left; margin-top: 10px; }
+        @media print {
+            body { width: 100%; margin: 0; padding: 0; }
+            button { display: none; }
+        }
+    </style>
+</head>
+<body onload="window.print()">
+    <div class="header">
+        <img src="{% static 'fer-logo.png' %}" style="max-width: 150px;" alt="Logo">
+    </div>
+    <div>{{ ticket.date }}</div>
+    
+    <div class="id">#{{ ticket.id }}</div>
+    <div style="font-size: 10px; font-family: monospace;">{{ ticket.ticket_id }}</div>
+    
+    <div class="header">{{ ticket.name }}</div>
+    <div>{{ ticket.phone }}</div>
+    
+    <div class="details">
+        <strong>Дефект:</strong><br>
+        {{ ticket.description|truncatechars:50 }}
+    </div>
+</body>
+</html>

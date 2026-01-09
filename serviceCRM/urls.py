@@ -19,13 +19,24 @@ from django.urls import path
 import serviceCRM.views as view
 
 urlpatterns = [
-    path("", view.InsertListView.as_view(), name="index"),
+    path("", view.home, name="home"),
+    path("dashboard/", view.InsertListView.as_view(), name="dashboard"),
     path('admin/', admin.site.urls),
     path("insert/", view.InsertNew.insert, name="insert"),
-    path("edit/<int:pk>/", view.Update.as_view(), name="update"),
-    path("nalog/<int:id>/", view.Nalog, name="nalog"),
-    path("delete/<int:id>/", view.Delete.delete, name="delete"),
+    path("logout/", view.logout_view, name="logout"),
+    path("track/", view.track_ticket, name="track_ticket"),
+    path("ticket/<str:ticket_id>/", view.Nalog, name="nalog"),
+    
+    # Secure public links
+    path("print/label/<str:ticket_id>/", view.print_label, name="print_label"),
+    path("print/receipt/<str:ticket_id>/", view.print_receipt, name="print_receipt"),
+    
+    # Secure staff actions
+    path("edit/<str:ticket_id>/", view.Update.as_view(), name="update"),
+    path("close/<str:ticket_id>/", view.CloseTicketView.as_view(), name="close_ticket"),
+    path("delete/<str:ticket_id>/", view.Delete.delete, name="delete"),
+    
     path("done/", view.Done.as_view(), name="done"),
-    path("done/<int:id>/", view.Done.done_by_id, name="done"),
+    path("done/<str:ticket_id>/", view.Done.done_by_id, name="done_detail"),
     path("datatable/", view.DatatableView.as_view(), name="datatable"),
 ]

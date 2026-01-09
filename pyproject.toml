@@ -1,0 +1,35 @@
+[project]
+name = "servicecrm"
+version = "0.1.0"
+description = "A CRM application built with Django."
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "asgiref>=3.11.0",
+    "cffi>=2.0.0",
+    "crispy-bootstrap5>=2025.6",
+    "crispy-tailwind>=1.0.3",
+    "cryptography>=46.0.3",
+    "django>=6.0.1",
+    "django-crispy-forms>=2.5",
+    "django-datatable-view>=2.1.6",
+    "django-environ>=0.12.0",
+    "django-filter>=25.2",
+    "django-pipeline>=4.1.0",
+    "django-tables2>=2.8.0",
+    "dnspython>=2.8.0",
+    "feedparser>=6.0.12",
+    "nanoid>=2.0.0",
+    "pillow>=12.1.0",
+    "publicsuffix>=1.1.1",
+    "pycparser>=2.23",
+    "python-dateutil>=2.9.0.post0",
+    "pytz>=2025.2",
+    "sgmllib3k>=1.0.0",
+    "six>=1.17.0",
+    "sqlparse>=0.5.5",
+    "tablib>=3.9.0",
+    "typing-extensions>=4.15.0",
+    "tzdata>=2025.3",
+    "uvicorn>=0.40.0",
+]

@@ -1,83 +1,107 @@
-{% block content %}
+{% extends 'base.html' %}
 {% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Servicing Ticket</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        .header img {
-            max-width: 150px;
-        }
-        .ticket {
-            border: 2px solid #000;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        .ticket-info {
-            margin-bottom: 20px;
-        }
-        .ticket-info label {
-            font-weight: bold;
-        }
-        .ticket-description {
-            border-top: 2px solid #000;
-            padding-top: 10px;
-        }
-        .center {
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            max-width: 100%;
-            max-height: 100%;
-            margin-bottom: 5    0px;
-          }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <img src="{% static 'fer-logo.png' %}" class="center" alt="Company Logo">
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white shadow overflow-hidden sm:rounded-lg">
+    <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
+        <div>
+            <h3 class="text-lg leading-6 font-medium text-gray-900">Сервисен Налог #{{ data.ticket_id }}</h3>
+            <p class="mt-1 max-w-2xl text-sm text-gray-500">Креиран на {{ data.date }} (Интерен ID: {{ data.id }})</p>
         </div>
-        <div class="ticket">
-            <div class="ticket-info">
-                <label>Име и презиме:</label> {{ name }}
-            </div>
-            <div class="ticket-info">
-                <label>Телефонски број:</label> {{phone}}
-            </div>
-            <div class="ticket-info">
-                <label>Датум:</label> {{date}}
-            </div>
-            <div class="ticket-description">
-                <label><b>Опис на дефект:</b></label> {{ desc }}
-            </div>
-        </div>
-        <div style="height:150px;"></div>
-        <div class="ticket">
-            <div class="ticket-info">
-                <label>Име и презиме:</label> {{ name }}
-            </div>
-            <div class="ticket-info">
-                <label>Телефонски број:</label> {{ phone }}
-            </div>
-            <div class="ticket-info">
-                <label>Датум:</label> {{ date }}
-            </div>
-            <div class="ticket-description">
-                <label><b>Опис на дефект:</b></label> {{ desc }}
-            </div>
+        <div class="flex space-x-3">
+            <a href="{% url 'print_label' data.ticket_id %}" target="_blank" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                <svg xmlns="http://www.w3.org/2000/svg" class="-ml-1 mr-2 h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                </svg>
+                Печати Налепница
+            </a>
+            <a href="{% url 'print_receipt' data.ticket_id %}" target="_blank" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                <svg xmlns="http://www.w3.org/2000/svg" class="-ml-1 mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                </svg>
+                Печати Потврда
+            </a>
         </div>
     </div>
-</body>
-</html>
+    <div class="border-t border-gray-200">
+        <dl>
+            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">Име на клиент</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ data.name }}</dd>
+            </div>
+            <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">Телефонски број</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ data.phone }}</dd>
+            </div>
+            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">Опис на дефект</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ data.description }}</dd>
+            </div>
+            <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">Статус</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ data.get_status_display }}</dd>
+            </div>
+            {% if data.note %}
+            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">Интерна забелешка</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ data.note }}</dd>
+            </div>
+            {% endif %}
+            {% if data.done %}
+            <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">Детали за поправка</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ data.repair }}</dd>
+            </div>
+            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">Плаќање/Регистарски број</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ data.plateno }}</dd>
+            </div>
+            <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">Датум на затворање</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ data.date_close }}</dd>
+            </div>
+            {% endif %}
+        </dl>
+    </div>
+    
+    <!-- Ticket History -->
+    <div class="bg-gray-50 px-4 py-5 sm:px-6 border-t border-gray-200">
+                <h4 class="text-md leading-6 font-medium text-gray-900 mb-4">Историја на активности</h4>
+                <div class="flow-root">
+                    <ul role="list" class="-mb-8">
+                        {% for log in data.logs.all %}
+                        <li>
+                            <div class="relative pb-8">
+                                {% if not forloop.last %}
+                                <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                                {% endif %}
+                                <div class="relative flex space-x-3">
+                                    <div>
+                                        <span class="h-8 w-8 rounded-full bg-gray-500 flex items-center justify-center ring-8 ring-white">
+                                            <svg class="h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+                                            </svg>
+                                        </span>
+                                    </div>
+                                    <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                        <div>
+                                            <p class="text-sm text-gray-500">{{ log.details }} <span class="font-medium text-gray-900">({{ log.action }})</span></p>
+                                        </div>
+                                        <div class="text-right text-sm whitespace-nowrap text-gray-500">
+                                            <time datetime="{{ log.timestamp|date:'Y-m-d H:i' }}">{{ log.timestamp|date:"M d, H:i" }}</time>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        {% empty %}
+                        <li class="text-sm text-gray-500">Нема историја.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+    
+    <div class="px-4 py-3 bg-white border-t border-gray-200 text-right sm:px-6">
+        <a href="{% url 'dashboard' %}" class="text-indigo-600 hover:text-indigo-900">Назад кон листа</a>
+    </div>
+</div>
 {% endblock %}
