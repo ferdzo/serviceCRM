@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>Потврда #{{ ticket.id }}</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         @media print {
             @page {
@@ -69,51 +70,54 @@
         <!-- Copy 1: Customer -->
         <div class="a5-copy">
             <!-- Header -->
-            <div class="flex justify-between items-start border-b-2 border-gray-800 pb-2 mb-4">
+            <div class="flex justify-between items-start border-b-2 border-black pb-2 mb-4">
                 <div>
                     <img src="{% static 'fer-logo.png' %}" alt="Logo" class="h-10 w-auto mb-1">
-                    <h1 class="text-2xl font-bold text-gray-900">СЕРВИСНА ПОТВРДА</h1>
-                    <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Примерок за Клиент</span>
+                    <h1 class="text-2xl font-bold text-black">СЕРВИСНА ПОТВРДА</h1>
+                    <span class="text-xs font-bold text-black uppercase tracking-widest">Примерок за Клиент</span>
                 </div>
-                <div class="text-right">
-                    <div class="text-xl font-bold">Налог #{{ ticket.id }}</div>
-                    <div class="text-xs font-mono text-gray-500 mb-1">Реф: {{ ticket.ticket_id }}</div>
-                    <div class="text-gray-600 text-sm">{{ ticket.date }}</div>
-                    <div class="mt-1 inline-block px-2 py-0.5 bg-gray-200 rounded text-xs font-bold">{{ ticket.get_status_display }}</div>
+                <div class="flex gap-4 items-center">
+                    <div id="qr-client" class="bg-white"></div>
+                    <div class="text-right">
+                        <div class="text-xl font-bold text-black">Налог #{{ ticket.id }}</div>
+                        <div class="text-xs font-mono font-bold text-black mb-1">Реф: {{ ticket.ticket_id }}</div>
+                        <div class="text-black font-bold text-sm">{{ ticket.date }}</div>
+                        <div class="mt-1 inline-block px-2 py-0.5 border border-black rounded text-xs font-bold text-black">{{ ticket.get_status_display }}</div>
+                    </div>
                 </div>
             </div>
 
             <!-- Content Grid -->
             <div class="flex gap-6 mb-4">
                 <div class="w-1/3">
-                    <h3 class="text-gray-500 text-xs uppercase tracking-wide border-b border-gray-200 mb-1">Клиент</h3>
-                    <p class="font-bold text-gray-900">{{ ticket.name }}</p>
-                    <p class="text-sm text-gray-800">{{ ticket.phone }}</p>
+                    <h3 class="text-black font-bold text-xs uppercase tracking-wide border-b border-black mb-1">Клиент</h3>
+                    <p class="font-bold text-black">{{ ticket.name }}</p>
+                    <p class="text-sm font-bold text-black">{{ ticket.phone }}</p>
                 </div>
                 <div class="w-2/3">
-                    <h3 class="text-gray-500 text-xs uppercase tracking-wide border-b border-gray-200 mb-1">Детали за сервис</h3>
-                    <div class="bg-gray-50 p-2 rounded text-sm">
-                        <p class="font-bold text-xs text-gray-500">Пријавен дефект:</p>
-                        <p class="mb-2">{{ ticket.description }}</p>
+                    <h3 class="text-black font-bold text-xs uppercase tracking-wide border-b border-black mb-1">Детали за сервис</h3>
+                    <div class="p-2 rounded text-sm border border-black">
+                        <p class="font-bold text-xs text-black">Пријавен дефект:</p>
+                        <p class="mb-2 font-bold text-black">{{ ticket.description }}</p>
                         {% if ticket.plateno %}
-                        <p class="font-bold text-xs text-gray-500">Проценка/Наплатено:</p>
-                        <p class="font-mono font-bold">{{ ticket.plateno }}</p>
+                        <p class="font-bold text-xs text-black">Проценка/Наплатено:</p>
+                        <p class="font-mono font-bold text-black">{{ ticket.plateno }}</p>
                         {% endif %}
                     </div>
                 </div>
             </div>
 
             <!-- Terms (Condensed) -->
-            <div class="text-[10px] leading-tight text-justify text-gray-500 mb-8 border-t border-gray-100 pt-2 absolute bottom-[12mm] left-[10mm] right-[10mm]">
+            <div class="text-[10px] leading-tight text-justify text-black font-bold mb-8 border-t border-black pt-2 absolute bottom-[12mm] left-[10mm] right-[10mm]">
                 <p><strong>УСЛОВИ:</strong> Со потпис потврдувате дека сте согласни со условите. Сервисот не одговара за загуба на податоци. Дијагностика се наплаќа ако поправката е одбиена. Уреди неподигнати 30 дена по известувањето се отстрануваат.</p>
                 
                 <!-- Signatures inline with terms to save space -->
                 <div class="grid grid-cols-2 gap-8 mt-2 pt-2">
-                    <div class="border-t border-gray-400 pt-1">
-                        <p class="text-xs text-gray-600">Потпис на клиент</p>
+                    <div class="border-t border-black pt-1">
+                        <p class="text-xs font-bold text-black">Потпис на клиент</p>
                     </div>
-                    <div class="border-t border-gray-400 pt-1 text-right">
-                        <p class="text-xs text-gray-600">Сервисер</p>
+                    <div class="border-t border-black pt-1 text-right">
+                        <p class="text-xs font-bold text-black">Сервисер</p>
                     </div>
                 </div>
             </div>
@@ -123,51 +127,54 @@
         <!-- Copy 2: Service -->
         <div class="a5-copy">
             <!-- Header -->
-            <div class="flex justify-between items-start border-b-2 border-gray-800 pb-2 mb-4">
+            <div class="flex justify-between items-start border-b-2 border-black pb-2 mb-4">
                 <div>
                     <img src="{% static 'fer-logo.png' %}" alt="Logo" class="h-10 w-auto mb-1">
-                    <h1 class="text-2xl font-bold text-gray-900">СЕРВИСНА ПОТВРДА</h1>
-                     <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Примерок за Сервис</span>
+                    <h1 class="text-2xl font-bold text-black">СЕРВИСНА ПОТВРДА</h1>
+                     <span class="text-xs font-bold text-black uppercase tracking-widest">Примерок за Сервис</span>
                 </div>
-                <div class="text-right">
-                    <div class="text-xl font-bold">Налог #{{ ticket.id }}</div>
-                    <div class="text-xs font-mono text-gray-500 mb-1">Реф: {{ ticket.ticket_id }}</div>
-                    <div class="text-gray-600 text-sm">{{ ticket.date }}</div>
-                    <div class="mt-1 inline-block px-2 py-0.5 bg-gray-200 rounded text-xs font-bold">{{ ticket.get_status_display }}</div>
+                <div class="flex gap-4 items-center">
+                    <div id="qr-service" class="bg-white"></div>
+                    <div class="text-right">
+                        <div class="text-xl font-bold text-black">Налог #{{ ticket.id }}</div>
+                        <div class="text-xs font-mono font-bold text-black mb-1">Реф: {{ ticket.ticket_id }}</div>
+                        <div class="text-black font-bold text-sm">{{ ticket.date }}</div>
+                        <div class="mt-1 inline-block px-2 py-0.5 border border-black rounded text-xs font-bold text-black">{{ ticket.get_status_display }}</div>
+                    </div>
                 </div>
             </div>
 
             <!-- Content Grid -->
             <div class="flex gap-6 mb-4">
                 <div class="w-1/3">
-                    <h3 class="text-gray-500 text-xs uppercase tracking-wide border-b border-gray-200 mb-1">Клиент</h3>
-                    <p class="font-bold text-gray-900">{{ ticket.name }}</p>
-                    <p class="text-sm text-gray-800">{{ ticket.phone }}</p>
+                    <h3 class="text-black font-bold text-xs uppercase tracking-wide border-b border-black mb-1">Клиент</h3>
+                    <p class="font-bold text-black">{{ ticket.name }}</p>
+                    <p class="text-sm font-bold text-black">{{ ticket.phone }}</p>
                 </div>
                 <div class="w-2/3">
-                    <h3 class="text-gray-500 text-xs uppercase tracking-wide border-b border-gray-200 mb-1">Детали за сервис</h3>
-                    <div class="bg-gray-50 p-2 rounded text-sm">
-                        <p class="font-bold text-xs text-gray-500">Пријавен дефект:</p>
-                        <p class="mb-2">{{ ticket.description }}</p>
+                    <h3 class="text-black font-bold text-xs uppercase tracking-wide border-b border-black mb-1">Детали за сервис</h3>
+                    <div class="p-2 rounded text-sm border border-black">
+                        <p class="font-bold text-xs text-black">Пријавен дефект:</p>
+                        <p class="mb-2 font-bold text-black">{{ ticket.description }}</p>
                         {% if ticket.plateno %}
-                        <p class="font-bold text-xs text-gray-500">Проценка/Наплатено:</p>
-                        <p class="font-mono font-bold">{{ ticket.plateno }}</p>
+                        <p class="font-bold text-xs text-black">Проценка/Наплатено:</p>
+                        <p class="font-mono font-bold text-black">{{ ticket.plateno }}</p>
                         {% endif %}
                     </div>
                 </div>
             </div>
 
              <!-- Terms (Condensed) -->
-            <div class="text-[10px] leading-tight text-justify text-gray-500 mb-8 border-t border-gray-100 pt-2 absolute bottom-[12mm] left-[10mm] right-[10mm]">
+            <div class="text-[10px] leading-tight text-justify text-black font-bold mb-8 border-t border-black pt-2 absolute bottom-[12mm] left-[10mm] right-[10mm]">
                 <p><strong>УСЛОВИ:</strong> Со потпис потврдувате дека сте согласни со условите. Сервисот не одговара за загуба на податоци. Дијагностика се наплаќа ако поправката е одбиена. Уреди неподигнати 30 дена по известувањето се отстрануваат.</p>
                 
                 <!-- Signatures -->
                 <div class="grid grid-cols-2 gap-8 mt-2 pt-2">
-                    <div class="border-t border-gray-400 pt-1">
-                        <p class="text-xs text-gray-600">Потпис на клиент</p>
+                    <div class="border-t border-black pt-1">
+                        <p class="text-xs font-bold text-black">Потпис на клиент</p>
                     </div>
-                    <div class="border-t border-gray-400 pt-1 text-right">
-                        <p class="text-xs text-gray-600">Сервисер</p>
+                    <div class="border-t border-black pt-1 text-right">
+                        <p class="text-xs font-bold text-black">Сервисер</p>
                     </div>
                 </div>
             </div>
@@ -180,5 +187,23 @@
         <button onclick="window.print()" class="bg-gray-900 text-white px-4 py-2 rounded shadow hover:bg-gray-800">Печати</button>
         <button onclick="window.close()" class="bg-gray-500 text-white px-4 py-2 rounded shadow hover:bg-gray-600">Затвори</button>
     </div>
+
+    <script type="text/javascript">
+        // Generate tracking URL dynamically based on current host
+        const trackingUrl = "{{ request.scheme }}://{{ request.get_host }}{% url 'track_ticket' %}?ticket_id={{ ticket.ticket_id }}";
+        
+        // Common config
+        const qrConfig = {
+            text: trackingUrl,
+            width: 80,
+            height: 80,
+            colorDark : "#000000",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.L
+        };
+
+        new QRCode(document.getElementById("qr-client"), qrConfig);
+        new QRCode(document.getElementById("qr-service"), qrConfig);
+    </script>
 </body>
 </html>

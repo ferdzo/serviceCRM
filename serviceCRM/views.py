@@ -82,12 +82,6 @@ class CloseTicketView(LoginRequiredMixin, generic.UpdateView):
 
 
 @login_required
-def Nalog(request, ticket_id):
-    data = get_object_or_404(Insert, ticket_id=ticket_id)
-    template = "serviceCRM/nalog.html"
-    context = {"data": data}
-    return render(request, template, context)
-
 @login_required
 def print_label(request, ticket_id):
     ticket = get_object_or_404(Insert, ticket_id=ticket_id)
@@ -97,6 +91,18 @@ def print_label(request, ticket_id):
 def print_receipt(request, ticket_id):
     ticket = get_object_or_404(Insert, ticket_id=ticket_id)
     return render(request, 'serviceCRM/print_receipt.html', {'ticket': ticket})
+
+def Nalog(request, ticket_id):
+    data = get_object_or_404(Insert, ticket_id=ticket_id)
+    # If user is staff/logged in, show the internal Nalog view (with print buttons, notes etc)
+    if request.user.is_authenticated:
+        template = "serviceCRM/nalog.html"
+        context = {"data": data}
+        return render(request, template, context)
+    # If public user, show the public tracking result
+    else:
+        return render(request, 'serviceCRM/public_track_result.html', {'ticket': data})
+
     
 class Done(LoginRequiredMixin, SingleTableMixin, FilterView):
     model = Insert

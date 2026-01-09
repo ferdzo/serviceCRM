@@ -1,76 +1,83 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="max-w-3xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
-        <div class="px-4 py-5 sm:px-6 flex justify-between items-center bg-gray-100 border-b border-gray-200">
-            <div>
-                <h3 class="text-lg leading-6 font-medium text-gray-900">
-                    Статус на поправка
-                </h3>
-                <p class="mt-1 max-w-2xl text-sm text-gray-500">
-                    Рефернца: <span class="font-mono font-bold text-gray-900">{{ ticket.ticket_id }}</span>
-                </p>
-            </div>
-            <div>
-                <span class="inline-flex items-center px-4 py-2 rounded-full text-base font-medium 
+<div class="max-w-xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+    <div class="bg-white shadow overflow-hidden rounded-xl">
+        <!-- Status Header (Mobile Friendly) -->
+        <div class="px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-200">
+            <div class="flex flex-col items-center justify-center space-y-3">
+                <span class="inline-flex items-center px-6 py-2 rounded-full text-lg font-bold shadow-sm
                     {% if ticket.done %}
-                        bg-green-100 text-green-800
+                        bg-green-100 text-green-800 ring-1 ring-inset ring-green-600/20
                     {% else %}
-                        bg-yellow-100 text-yellow-800
+                        bg-yellow-100 text-yellow-800 ring-1 ring-inset ring-yellow-600/20
                     {% endif %}">
                     {% if ticket.done %}
-                        ЗАВРШЕНО
+                        ✓ ЗАВРШЕНО
                     {% else %}
-                        ВО ИЗРАБОТКА
+                        ⟳ ВО ИЗРАБОТКА
                     {% endif %}
                 </span>
+                <div class="text-center">
+                    <p class="text-xs text-gray-500 uppercase tracking-widest font-semibold">Број на налог</p>
+                    <p class="font-mono text-xl font-bold text-gray-900 tracking-wider">{{ ticket.ticket_id }}</p>
+                </div>
             </div>
         </div>
+
         <div class="border-t border-gray-200">
-            <dl>
-                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dl class="divide-y divide-gray-100">
+                <!-- Device -->
+                <div class="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 hover:bg-gray-50 bg-white">
                     <dt class="text-sm font-medium text-gray-500">
-                        Уред
+                         Уред
                     </dt>
-                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    <dd class="mt-1 text-base text-gray-900 font-semibold sm:mt-0 sm:col-span-2">
                         {{ ticket.name }}
                     </dd>
                 </div>
-                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+
+                <!-- Defect -->
+                <div class="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 hover:bg-gray-50 bg-white">
                     <dt class="text-sm font-medium text-gray-500">
-                        Дефект / Проблем
+                        Опис на дефект
                     </dt>
-                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 leading-relaxed">
                         {{ ticket.description }}
                     </dd>
                 </div>
-                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+
+                <!-- Detailed Status Message -->
+                <div class="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 hover:bg-gray-50 bg-white">
                     <dt class="text-sm font-medium text-gray-500">
-                        Моментален статус
+                        Статус на обработка
                     </dt>
-                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 font-semibold">
+                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 font-medium">
                         {{ ticket.get_status_display }}
                     </dd>
                 </div>
-                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+
+                <!-- Dates -->
+                <div class="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 hover:bg-gray-50 bg-white">
                     <dt class="text-sm font-medium text-gray-500">
-                        Примен на
+                        Датум на прием
                     </dt>
                     <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                         {{ ticket.date }}
                     </dd>
                 </div>
+
                 {% if ticket.done %}
-                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-t border-gray-200">
-                    <dt class="text-sm font-medium text-gray-900">
-                        Забелешки за сервисот
+                <!-- Resolution -->
+                <div class="px-4 py-4 bg-green-50 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-t border-green-100">
+                    <dt class="text-sm font-bold text-green-900">
+                        Опис на поправка
                     </dt>
-                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        {{ ticket.repair|default:"Нема забелешки." }}
+                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 font-medium">
+                        {{ ticket.repair|default:"Уредот е поправен според спецификација." }}
                     </dd>
                 </div>
-                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                 <div class="px-4 py-4 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt class="text-sm font-medium text-gray-500">
                         Завршено на
                     </dt>
@@ -81,8 +88,11 @@
                 {% endif %}
             </dl>
         </div>
-        <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-             <a href="{% url 'track_ticket' %}" class="font-medium text-gray-900 hover:text-gray-700">Провери друг налог &rarr;</a>
+        
+        <div class="px-4 py-4 bg-gray-50 border-t border-gray-200">
+             <a href="{% url 'track_ticket' %}" class="w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                &larr; Назад
+             </a>
         </div>
     </div>
 </div>

@@ -14,6 +14,8 @@ COPY manage.py ./
 
 RUN uv sync --frozen --no-dev
 
+# Collect static files
+RUN SECRET_KEY=dummy-key-for-build DEBUG=False uv run manage.py collectstatic --noinput
 
 FROM python:3.13-alpine
 
@@ -24,6 +26,7 @@ RUN apk add --no-cache postgresql-client
 COPY --from=builder /app/.venv /app/.venv
 COPY --from=builder /app/serviceCRM/ /app/serviceCRM/
 COPY --from=builder /app/manage.py /app/
+COPY --from=builder /app/staticfiles/ /app/staticfiles/
 
 RUN adduser -D -u 1000 appuser && \
     chown -R appuser:appuser /app
@@ -35,4 +38,4 @@ ENV PYTHONUNBUFFERED=1
 
 EXPOSE 8000
 
-CMD ["python", "-m", "uvicorn", "serviceCRM.asgi:application", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "-k", "uvicorn.workers.UvicornWorker", "serviceCRM.asgi:application"]
