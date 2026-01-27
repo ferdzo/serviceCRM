@@ -7,13 +7,15 @@
         <div class="px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-200">
             <div class="flex flex-col items-center justify-center space-y-3">
                 <span class="inline-flex items-center px-6 py-2 rounded-full text-lg font-bold shadow-sm
-                    {% if ticket.done %}
+                    {% if ticket.done or ticket.status == 'READY' %}
                         bg-green-100 text-green-800 ring-1 ring-inset ring-green-600/20
                     {% else %}
                         bg-yellow-100 text-yellow-800 ring-1 ring-inset ring-yellow-600/20
                     {% endif %}">
                     {% if ticket.done %}
                         ✓ ЗАВРШЕНО
+                    {% elif ticket.status == 'READY' %}
+                        ✓ ГОТОВО ЗА ПОДИГАЊЕ
                     {% else %}
                         ⟳ ВО ИЗРАБОТКА
                     {% endif %}
@@ -63,7 +65,7 @@
                         Датум на прием
                     </dt>
                     <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        {{ ticket.date }}
+                        {{ ticket.date|date:"d/m/y" }}
                     </dd>
                 </div>
 
@@ -82,7 +84,7 @@
                         Завршено на
                     </dt>
                     <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        {{ ticket.date_close }}
+                        {{ ticket.date_close|date:"d/m/y" }}
                     </dd>
                 </div>
                 {% endif %}

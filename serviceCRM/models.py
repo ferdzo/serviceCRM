@@ -50,6 +50,21 @@ class Insert(models.Model):
     def isDone(self):
         return self.done
 
+class Todo(models.Model):
+    title = models.CharField(max_length=200, verbose_name="Task")
+    name = models.CharField(max_length=100, verbose_name="Име", blank=True, null=True)
+    phone = models.CharField(max_length=20, verbose_name="Телефон", blank=True, null=True)
+    scheduled_date = models.DateField(verbose_name="Датум", blank=True, null=True)
+    scheduled_time = models.TimeField(verbose_name="Време", blank=True, null=True)
+    is_completed = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ['is_completed', 'scheduled_date', 'scheduled_time', '-created_at']
+
 class TicketLog(models.Model):
     ticket = models.ForeignKey(Insert, on_delete=models.CASCADE, related_name='logs')
     timestamp = models.DateTimeField(auto_now_add=True)

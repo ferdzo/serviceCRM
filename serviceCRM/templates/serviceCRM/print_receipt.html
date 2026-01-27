@@ -81,7 +81,7 @@
                     <div class="text-right">
                         <div class="text-xl font-bold text-black">Налог #{{ ticket.id }}</div>
                         <div class="text-xs font-mono font-bold text-black mb-1">Реф: {{ ticket.ticket_id }}</div>
-                        <div class="text-black font-bold text-sm">{{ ticket.date }}</div>
+                        <div class="text-black font-bold text-sm">{{ ticket.date|date:"d/m/y" }}</div>
                         <div class="mt-1 inline-block px-2 py-0.5 border border-black rounded text-xs font-bold text-black">{{ ticket.get_status_display }}</div>
                     </div>
                 </div>
@@ -138,7 +138,7 @@
                     <div class="text-right">
                         <div class="text-xl font-bold text-black">Налог #{{ ticket.id }}</div>
                         <div class="text-xs font-mono font-bold text-black mb-1">Реф: {{ ticket.ticket_id }}</div>
-                        <div class="text-black font-bold text-sm">{{ ticket.date }}</div>
+                        <div class="text-black font-bold text-sm">{{ ticket.date|date:"d/m/y" }}</div>
                         <div class="mt-1 inline-block px-2 py-0.5 border border-black rounded text-xs font-bold text-black">{{ ticket.get_status_display }}</div>
                     </div>
                 </div>

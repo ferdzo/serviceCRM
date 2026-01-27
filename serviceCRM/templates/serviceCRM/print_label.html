@@ -25,7 +25,7 @@
     <div class="header">
         <img src="{% static 'fer-logo.png' %}" style="max-width: 150px;" alt="Logo">
     </div>
-    <div>{{ ticket.date }}</div>
+    <div>{{ ticket.date|date:"d/m/y" }}</div>
     
     <div class="id">#{{ ticket.id }}</div>
     <div style="font-size: 10px; font-family: monospace;">{{ ticket.ticket_id }}</div>

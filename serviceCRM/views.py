@@ -6,8 +6,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 
-from .forms import InputForm, CloseForm
-from .models import Insert, TicketLog
+from .forms import InputForm, CloseForm, TodoForm
+from .models import Insert, TicketLog, Todo
 from .tables import DoneInsertTable, InsertTable
 from .filter import InsertFilter, DoneFilter
 
@@ -45,7 +45,7 @@ class InsertNew(generic.View):
                 TicketLog.objects.create(ticket=ticket, action="Креирано", details="Налогот е креиран во системот.")
                 return HttpResponseRedirect(f"/ticket/{ticket.ticket_id}/")
         else:
-            form = InputForm()
+            form = InputForm(initial={'date': timezone.localdate()})
 
         return render(request, InsertNew.template_name, {'form': form})
 
@@ -148,3 +148,86 @@ def home(request):
     if request.user.is_authenticated:
         return redirect('dashboard')
     return track_ticket(request)
+
+@login_required
+def todo_list(request):
+    # Get filter from query parameter (default: 'active' - not done only)
+    filter_type = request.GET.get('filter', 'active')
+    
+    # Filter todos based on selection
+    if filter_type == 'completed':
+        todos = Todo.objects.filter(is_completed=True)
+    elif filter_type == 'all':
+        todos = Todo.objects.all()
+    else:  # 'active' - default
+        todos = Todo.objects.filter(is_completed=False)
+    
+    # Calculate progress for the UI (always based on all tasks)
+    all_todos = Todo.objects.all()
+    total = all_todos.count()
+    completed = all_todos.filter(is_completed=True).count()
+    progress = int((completed / total * 100)) if total > 0 else 0
+    
+    form = TodoForm(initial={'scheduled_date': timezone.localdate()})
+    if request.method == 'POST':
+        form = TodoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('todo_list')
+
+    context = {
+        'todos': todos,
+        'form': form,
+        'total': total,
+        'completed': completed,
+        'progress': progress,
+        'filter_type': filter_type,
+        'active_count': all_todos.filter(is_completed=False).count(),
+    }
+    return render(request, 'serviceCRM/todo_list.html', context)
+
+@login_required
+def todo_edit(request, pk):
+    todo = get_object_or_404(Todo, pk=pk)
+    if request.method == 'POST':
+        form = TodoForm(request.POST, instance=todo)
+        if form.is_valid():
+            form.save()
+            return redirect('todo_list')
+    else:
+        form = TodoForm(instance=todo)
+    
+    context = {
+        'form': form,
+        'todo': todo,
+        'is_edit': True
+    }
+    return render(request, 'serviceCRM/todo_edit.html', context)
+
+@login_required
+def todo_toggle(request, pk):
+    todo = get_object_or_404(Todo, pk=pk)
+    todo.is_completed = not todo.is_completed
+    todo.save()
+    return redirect('todo_list')
+
+@login_required
+def todo_delete(request, pk):
+    todo = get_object_or_404(Todo, pk=pk)
+    todo.delete()
+    return redirect('todo_list')
+    context = {'todos': todo, 'form': form}
+    return render(request, 'serviceCRM/todo_list.html', context)
+
+@login_required
+def todo_toggle(request, pk):
+    todo = get_object_or_404(Todo, pk=pk)
+    todo.is_completed = not todo.is_completed
+    todo.save()
+    return redirect('todo_list')
+
+@login_required
+def todo_delete(request, pk):
+    todo = get_object_or_404(Todo, pk=pk)
+    todo.delete()
+    return redirect('todo_list')

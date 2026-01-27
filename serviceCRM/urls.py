@@ -39,4 +39,10 @@ urlpatterns = [
     path("done/", view.Done.as_view(), name="done"),
     path("done/<str:ticket_id>/", view.Done.done_by_id, name="done_detail"),
     path("datatable/", view.DatatableView.as_view(), name="datatable"),
+
+    # Todo List
+    path('todo/', view.todo_list, name='todo_list'),
+    path('todo/toggle/<int:pk>/', view.todo_toggle, name='todo_toggle'),
+    path('todo/edit/<int:pk>/', view.todo_edit, name='todo_edit'),
+    path('todo/delete/<int:pk>/', view.todo_delete, name='todo_delete'),
 ]
